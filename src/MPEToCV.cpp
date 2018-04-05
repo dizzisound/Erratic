@@ -266,4 +266,4 @@ MPEToCVWidget::MPEToCVWidget(MPEToCV *module) : ModuleWidget(module) {
 };
 
 
-Model *modelMPEToCV = Model::create<MPEToCV, MPEToCVWidget>("Erratic", "MPEToCV", "MPE to CV", MIDI_TAG, EXTERNAL_TAG);
+Model *modelMPEToCV = Model::create<MPEToCV, MPEToCVWidget>("ErraticInstruments", "MPEToCV", "MPE to CV", MIDI_TAG, EXTERNAL_TAG);

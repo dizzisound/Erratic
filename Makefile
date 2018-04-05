@@ -1,5 +1,5 @@
-SLUG = Erratic
-VERSION = 0.6.0
+SLUG = ErraticInstruments
+VERSION = 0.6.1
 
 # Define RACK_DIR
 RACK_DIR ?= ../..
