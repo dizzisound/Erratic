@@ -68,39 +68,36 @@ void MPEToCV::step() {
 	}	
 }
 
-// Currently only support one note
 void MPEToCV::pressNote(int note) {
 	// Remove existing similar note
-	// auto it = std::find(notes.begin(), notes.end(), note);
-	// if (it != notes.end())
-	// 	notes.erase(it);
-	// // Push note
-	// notes.push_back(note);
-	this->note = note;
-	gate = true;
-	this->newNote = true;
+ 	auto it = std::find(notes.begin(), notes.end(), note);
+ 	if (it != notes.end())
+ 		notes.erase(it);
+ 	// Push note
+ 	notes.push_back(note);
+ 	this->note = note;
+ 	gate = true;
+ 	this->newNote = true;
 }
 
 void MPEToCV::releaseNote(int note) {
-	gate = false;
+ 	// Remove the note
+ 	auto it = std::find(notes.begin(), notes.end(), note);
+ 	if (it != notes.end())
+ 		notes.erase(it);
 
-	// // Remove the note
-	// auto it = std::find(notes.begin(), notes.end(), note);
-	// if (it != notes.end())
-	// 	notes.erase(it);
-
-	// if (pedal) {
-	// 	// Don't release if pedal is held
-	// 	gate = true;
-	// } else if (!notes.empty()) {
-	// 	// Play previous note
-	// 	auto it2 = notes.end();
-	// 	it2--;
-	// 	this->note = *it2;
-	// 	gate = true;
-	// } else {
-	// 	gate = false;
-	// }
+ 	if (pedal) {
+ 		// Don't release if pedal is held
+ 		gate = true;
+ 	} else if (!notes.empty()) {
+ 		// Play previous note
+ 		auto it2 = notes.end();
+ 		it2--;
+ 		this->note = *it2;
+ 		gate = true;
+ 	} else {
+ 		gate = false;
+ 	}
 }
 
 void MPEToCV::processMessage(MidiMessage msg) {
@@ -261,7 +258,7 @@ MPEToCVWidget::MPEToCVWidget(MPEToCV *module) : ModuleWidget(module) {
 		label->text = labels[i];
 		label->color = nvgRGB(0x00, 0x00, 0x00);
 		addChild(label);
-		addOutput(createOutput<PJ3410Port>(Vec(15 * 6, yPos - 5), module, i));
+		addOutput(Port::create<PJ3410Port>(Vec(15 * 6, yPos - 5), Port::OUTPUT, module, i));
 
 		yPos += yGap + 2*margin;
 	}
@@ -269,4 +266,4 @@ MPEToCVWidget::MPEToCVWidget(MPEToCV *module) : ModuleWidget(module) {
 };
 
 
-Model *modelMPEToCV = Model::create<MPEToCV, MPEToCVWidget>("ErraticInstruments", "MPEToCV", "MPE to CV", MIDI_TAG, EXTERNAL_TAG);
+Model *modelMPEToCV = Model::create<MPEToCV, MPEToCVWidget>("Erratic", "MPEToCV", "MPE to CV", MIDI_TAG, EXTERNAL_TAG);
