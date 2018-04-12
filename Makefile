@@ -17,8 +17,7 @@ LDFLAGS +=
 # see https://www.facebook.com/groups/vcvrack/permalink/155099375150215/
 include $(RACK_DIR)/arch.mk
 ifeq ($(ARCH), win)
-	# FLAGS += -I $(RACK_DIR)/include -I $(RACK_DIR)/dep/include
-	LDFLAGS += -L$(RACK_DIR)/dep/lib -lrtmidi
+	LDFLAGS += -L"$(RACK_DIR)/dep/lib" -lrtmidi
 endif
 
 # Add .cpp and .c files to the build
